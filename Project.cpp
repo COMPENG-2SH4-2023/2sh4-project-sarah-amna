@@ -63,6 +63,7 @@ void RunLogic(void)
 {
     myPlayer->updatePlayerDir();
     myPlayer->movePlayer();
+    myGM->clearInput();
 
 }
 
@@ -113,4 +114,8 @@ void CleanUp(void)
 {
     MacUILib_clearScreen();    
     MacUILib_uninit();
+
+    //remove heap instances
+    delete myGM;
+    delete player;
 }
