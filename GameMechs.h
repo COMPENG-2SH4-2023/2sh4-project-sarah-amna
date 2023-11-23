@@ -1,8 +1,8 @@
 #ifndef GAMEMECHS_H
 #define GAMEMECHS_H
 
-#include <cstdlib>
-#include <time.h>
+#include <cstdlib> //provides srand and rand
+#include <time.h>  //can also be <ctime>
 
 #include "objPos.h"
 #include "objPosArrayList.h"
@@ -24,6 +24,8 @@ class GameMechs
         bool loseFlag;
         int score;
         
+        objPos foodPos;
+
         int boardSizeX;
         int boardSizeY;
 
@@ -35,14 +37,17 @@ class GameMechs
         bool getLoseFlagStatus();
         void setExitTrue();
 
-        char getInput();
+        char getInput(); //const?
         void setInput(char this_input);
         void clearInput();
 
         int getBoardSizeX();
         int getBoardSizeY();
         int getScore();
-      
+        void incrementScore();
+        
+        void generateFood(objPos blockOff);
+        void getFoodPos(objPos &returnPos);    
 };
 
 #endif
