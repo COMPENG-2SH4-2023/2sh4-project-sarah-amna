@@ -48,6 +48,13 @@ void Initialize(void)
     myGM= new GameMechs(20,10); // x-cols, y-rows
     myPlayer= new Player(myGM);
 
+    //Think about when to generate food..
+
+    //Think about whether you want to set up a debug key to call the food generation routine for verification
+
+    //remember, generateFood() requires player reference, you will need to provide it AFTER player 
+    //obj is instantiated
+
 }
 
 void GetInput(void)
