@@ -1,0 +1,25 @@
+#ifndef Food_H
+#define Food_H
+
+#include "GameMechs.h"
+#include "objPos.h"
+#include "objPosArrayList.h"
+
+class Food 
+{
+    private:
+        objPos foodPos;
+        
+    public:
+        Food();// Constructor
+        ~Food();// Destructor
+        void generateFood(objPos blockOff);
+        void getFoodPos(objPos &returnPos); 
+
+        // Need to accept the player body array list
+        // go thru each array list element to make sure they are all
+        // blocked off from random food generation 
+
+};
+
+#endif

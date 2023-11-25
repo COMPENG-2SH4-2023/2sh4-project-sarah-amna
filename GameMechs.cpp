@@ -1,6 +1,5 @@
 #include "GameMechs.h"
 #include "MacUILib.h"
-#include "Food.h"
 
 //Think about where to seed the RNG PPA3 design
 
