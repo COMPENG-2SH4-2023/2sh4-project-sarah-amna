@@ -3,7 +3,7 @@
 #include "objPos.h"
 #include "GameMechs.h"
 #include "Player.h"
-
+#include "Food.h"
 
 using namespace std;
 
@@ -11,6 +11,8 @@ using namespace std;
 
 GameMechs* myGM;
 Player* myPlayer;
+Food* myFood; // Global Pointer to this class 
+
 objPos myPos;
 
 bool exitFlag;
@@ -47,14 +49,14 @@ void Initialize(void)
 
     myGM= new GameMechs(20,10); // x-cols, y-rows
     myPlayer= new Player(myGM);
+    myFood = new Food(); //allocate it on the heap
 
     //Think about when to generate food..
-
+    myFood->generateFood(myPos);
     //Think about whether you want to set up a debug key to call the food generation routine for verification
 
     //remember, generateFood() requires player reference, you will need to provide it AFTER player 
     //obj is instantiated
-
 }
 
 void GetInput(void)
@@ -78,8 +80,11 @@ void DrawScreen(void)
 {
     MacUILib_clearScreen(); 
     objPos tempPos;
+    objPos tempFoodPos;
     myPlayer->getPlayerPos(tempPos);
-    //MacUILib_printf("Object: <%d, %d> with %c\n", myPos.x, myPos.y, myPos.symbol);
+    myFood->getFoodPos(tempFoodPos);
+    MacUILib_printf("Player: <%d, %d> with %c\n", tempPos.x, tempPos.y, tempPos.symbol);
+    MacUILib_printf("Food: <%d, %d> with %c\n", tempFoodPos.x, tempFoodPos.y, tempFoodPos.symbol);
     //Because we are using the async input in MacUILib_printf instead of cout
     //objPos tempPos;
     //myPlayer.getPlayerPos(tempPos);
@@ -92,6 +97,10 @@ void DrawScreen(void)
             if(i==tempPos.y&& j==tempPos.x) //check if equal to player position
             {
                 MacUILib_printf("%c", tempPos.symbol);
+            }
+            else if (i ==tempFoodPos.y && j ==tempFoodPos.x)
+            {
+                MacUILib_printf("%c", tempFoodPos.symbol);
             }
 
             else
@@ -124,5 +133,6 @@ void CleanUp(void)
 
     //remove heap instances
     delete myGM;
-    delete player;
+    delete myPlayer;
+    delete myFood;
 }

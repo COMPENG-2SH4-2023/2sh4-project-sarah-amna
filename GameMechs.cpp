@@ -1,5 +1,6 @@
 #include "GameMechs.h"
 #include "MacUILib.h"
+#include "Food.h"
 
 //Think about where to seed the RNG PPA3 design
 
@@ -11,10 +12,7 @@ GameMechs::GameMechs()
     exitFlag= false;
     loseFlag= false;
     boardSizeX= 20;
-    boardSizeY= 10;
-
-    foodPos.setObjPos(-1, -1, 'o'); //outside the board 
-    
+    boardSizeY= 10; 
 }
 
 GameMechs::GameMechs(int boardX, int boardY)
@@ -25,14 +23,9 @@ GameMechs::GameMechs(int boardX, int boardY)
     loseFlag = false;
     boardSizeX= boardX;
     boardSizeY= boardY;
-    
-    foodPos.setObjPos(-1, -1, 'o'); //outside the board 
 }
 
 // do you need a destructor?
-
-
-
 bool GameMechs::getExitFlagStatus()
 {
     return exitFlag;
@@ -71,28 +64,6 @@ void GameMechs::incrementScore()
 {
     score++;
 }
-void GameMechs::generateFood(objPos blockOff)
-{
-    //Generate random x and y coord and make sure they are not border or blockOff pos
-    //check x and y against 0 and boardSixeX/Y
-
-    //remember in objPos class you have an isPosEqual() method instead of comparing elem-by-elem for your convenience
-    int randX;
-    int randY;
-    
-    do {
-        srand(time(NULL));
-        foodPos.x = randX;
-        foodPos.y = randY;
-    }  while (foodPos.isPosEqual(&blockOff) == true); 
-
-}
-void GameMechs::getFoodPos(const objPos &returnPos)
-{
-    returnPos = foodPos
-    return returnPos;
-}
-
 
 void GameMechs::setExitTrue()
 {

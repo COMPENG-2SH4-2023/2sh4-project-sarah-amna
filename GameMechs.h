@@ -6,6 +6,7 @@
 
 #include "objPos.h"
 #include "objPosArrayList.h"
+#include "Food.h"
 
 using namespace std;
 
@@ -23,8 +24,6 @@ class GameMechs
         bool exitFlag;
         bool loseFlag;
         int score;
-        
-        objPos foodPos;
 
         int boardSizeX;
         int boardSizeY;
@@ -44,10 +43,7 @@ class GameMechs
         int getBoardSizeX();
         int getBoardSizeY();
         int getScore();
-        void incrementScore();
-        
-        void generateFood(objPos blockOff);
-        void getFoodPos(objPos &returnPos);    
+        void incrementScore();  
 };
 
 #endif
