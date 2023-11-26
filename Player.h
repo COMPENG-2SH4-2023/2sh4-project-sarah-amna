@@ -38,8 +38,6 @@ class Player
         // LOST - display LOST msg
         //otherwise, display ENDGAME msg only
 
-        //
-        
 
     private:
         objPosArrayList *playerPosList;   // Upgraded this in iteration 3.       

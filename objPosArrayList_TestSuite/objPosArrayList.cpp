@@ -54,18 +54,26 @@ void objPosArrayList::insertTail(objPos thisPos)
 
 void objPosArrayList::removeHead()
 {
-    for(int i = 0 ; i <listSize; i++)
+    if (listSize!=0)
     {
-        objPos* temp= aList;
-        aList[i].setObjPos(aList[i+1]); //this will shuffle all the elements towards the right
-        aList[i+1].setObjPos(temp[i]);
+        for(int i = 0 ; i <listSize; i++)
+        {
+            objPos* temp= aList;
+            aList[i].setObjPos(aList[i+1]); //this will shuffle all the elements towards the right
+            aList[i+1].setObjPos(temp[i]);
+        }
+        listSize--;
     }
-    listSize--;
+    
 }
 
 void objPosArrayList::removeTail()
 {
-    listSize--;
+    if (listSize!=0)
+    {
+        listSize--;
+    }
+    
 }
 
 void objPosArrayList::getHeadElement(objPos &returnPos)
