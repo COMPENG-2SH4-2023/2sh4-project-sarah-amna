@@ -49,8 +49,9 @@ void Initialize(void)
     MacUILib_clearScreen();
 
     myGM= new GameMechs(20,10); // x-cols, y-rows
-    myPlayer= new Player(myGM);
     myFood = new Food(); //allocate it on the heap
+    myPlayer= new Player(myGM, myFood);
+    
 
     //Think about when to generate food..
     myFood->generateFood(myPos); //TODO
