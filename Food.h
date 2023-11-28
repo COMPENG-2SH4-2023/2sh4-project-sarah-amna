@@ -13,7 +13,7 @@ class Food
     public:
         Food();// Constructor
         ~Food();// Destructor
-        void generateFood(objPos blockOff);
+        void generateFood(objPosArrayList &blockOff);
         void getFoodPos(objPos &returnPos); 
 
         // Need to accept the player body array list

@@ -12,9 +12,11 @@ using namespace std;
 
 GameMechs* myGM;
 Player* myPlayer;
+objPosArrayList* playerPosList = new objPosArrayList;
 Food* myFood; // Global Pointer to this class 
 
 objPos myPos;
+
 
 bool exitFlag;
 
@@ -49,11 +51,12 @@ void Initialize(void)
     MacUILib_clearScreen();
 
     myGM= new GameMechs(20,10); // x-cols, y-rows
-    myPlayer= new Player(myGM);
     myFood = new Food(); //allocate it on the heap
 
+    myPlayer= new Player(myGM, myFood);
+    
     //Think about when to generate food..
-    myFood->generateFood(myPos); //TODO
+    myFood->generateFood(*playerPosList); 
     //Think about whether you want to set up a debug key to call the food generation routine for verification
 
     //remember, generateFood() requires player reference, you will need to provide it AFTER player 
@@ -68,7 +71,7 @@ void GetInput(void)
     }
     if (myGM->getInput() == 'f')
     {
-        myFood->generateFood(myPos);
+        myFood->generateFood(*playerPosList);
     }
    
 }

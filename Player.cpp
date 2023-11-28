@@ -1,9 +1,10 @@
 #include "Player.h"
 
 
-Player::Player(GameMechs* thisGMRef)
+Player::Player(GameMechs* thisGMRef, Food* myFood)
 {
     mainGameMechsRef = thisGMRef;
+    foodRef = myFood;
     myDir = STOP;
 
     // more actions to be included
@@ -116,10 +117,24 @@ void Player::movePlayer()
         default:
             break;
     }
-    //new current head should be inserted to the head of the list
-    playerPosList->insertHead(currHead);
+    
+    //Collision Detection
+    objPos tempFoodPos;
+    foodRef->getFoodPos(tempFoodPos);
 
-    //then, remove tail
-    playerPosList->removeTail();
+    if(currHead.x == tempFoodPos.x && currHead.y == tempFoodPos.y)
+    {
+        playerPosList->insertHead(currHead);
+        foodRef->generateFood(*playerPosList);
+        mainGameMechsRef->incrementScore();
+    }
+
+    else
+    {
+        //new current head should be inserted to the head of the list
+        playerPosList->insertHead(currHead);
+        //then, remove tailww
+        playerPosList->removeTail();
+    }
 }
 
