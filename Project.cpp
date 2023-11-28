@@ -52,6 +52,8 @@ void Initialize(void)
 
     myGM= new GameMechs(20,10); // x-cols, y-rows
     myFood = new Food(); //allocate it on the heap
+    myPlayer= new Player(myGM, myFood);
+    
 
     myPlayer= new Player(myGM, myFood);
     
