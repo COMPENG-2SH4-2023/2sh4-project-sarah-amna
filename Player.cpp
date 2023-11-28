@@ -1,17 +1,11 @@
 #include "Player.h"
-<<<<<<< HEAD
-
-
-Player::Player(GameMechs* thisGMRef, Food* myFood)
-{
-    mainGameMechsRef = thisGMRef;
-    foodRef = myFood;
-=======
+#include <iostream>
+#include "MacUILib.h"
+using namespace std;
 Player::Player(GameMechs* thisGMRef, Food* myFood)
 {
     mainGameMechsRef = thisGMRef;
     foodRef= myFood;
->>>>>>> e828bba7af2c4c4842fa37a7657358960108cbbd
     myDir = STOP;
 
 
@@ -127,22 +121,66 @@ void Player::movePlayer()
     }
     
     //Collision Detection
+    
     objPos tempFoodPos;
     foodRef->getFoodPos(tempFoodPos);
 
+    if(checkSelfCollision()==false || playerPosList->getSize() == 5)
+    {
+        if(currHead.x == tempFoodPos.x && currHead.y == tempFoodPos.y)
+        {
+            playerPosList->insertHead(currHead);
+            foodRef->generateFood(*playerPosList);
+            mainGameMechsRef->incrementScore();
+        }
+
+        else
+        {
+            //new current head should be inserted to the head of the list
+            playerPosList->insertHead(currHead);
+            //then, remove tail
+            playerPosList->removeTail();
+        }
+
+    }
+    
+}
+
+bool Player::checkSelfCollision()
+{
+    objPos returnPos;
+    objPos currHead;
+    playerPosList->getHeadElement(currHead);
+
+    for(int i=3; i<playerPosList->getSize(); i++)
+    {
+        playerPosList->getElement(returnPos,i);
+        if(returnPos.x==currHead.x && returnPos.y == currHead.y)
+        {
+            MacUILib_printf("self colided");
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Player::checkFoodConsumption()
+{
+    objPos tempFoodPos;
+    foodRef->getFoodPos(tempFoodPos);
     if(currHead.x == tempFoodPos.x && currHead.y == tempFoodPos.y)
     {
-        playerPosList->insertHead(currHead);
-        foodRef->generateFood(*playerPosList);
-        mainGameMechsRef->incrementScore();
+        return true;
     }
 
     else
     {
-        //new current head should be inserted to the head of the list
-        playerPosList->insertHead(currHead);
-        //then, remove tail
-        playerPosList->removeTail();
+        return false;
     }
+}
+
+void Player::increasePlayerLength()
+{
+    
 }
 
