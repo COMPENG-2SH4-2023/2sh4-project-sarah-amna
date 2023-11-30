@@ -13,16 +13,16 @@ Player::Player(GameMechs* thisGMRef, Food* myFood)
     objPos tempPos;
     tempPos.setObjPos(mainGameMechsRef->getBoardSizeX()/2,
                       mainGameMechsRef->getBoardSizeY()/2, 
-                      '@');
+                      '*');
 
     playerPosList = new objPosArrayList();
     playerPosList->insertHead(tempPos);
 
     //For Debugging Purpose 
-    playerPosList->insertHead(tempPos);
-    playerPosList->insertHead(tempPos);
-    playerPosList->insertHead(tempPos);
-    playerPosList->insertHead(tempPos);
+    // playerPosList->insertHead(tempPos);
+    // playerPosList->insertHead(tempPos);
+    // playerPosList->insertHead(tempPos);
+    // playerPosList->insertHead(tempPos);
 }
 
 
@@ -43,6 +43,7 @@ void Player::updatePlayerDir()
 {
     // PPA3 input processing logic  
     char input= mainGameMechsRef->getInput();
+    //char input= 'a';
     switch(input)
     {
         case 'a':
@@ -122,14 +123,11 @@ void Player::movePlayer()
     
     //Collision Detection
     
-    objPos tempFoodPos;
-    foodRef->getFoodPos(tempFoodPos);
-
-    if(checkSelfCollision()==false || playerPosList->getSize() == 5)
+    if(checkSelfCollision(currHead)==false)
     {
-        if(currHead.x == tempFoodPos.x && currHead.y == tempFoodPos.y)
+        if(checkFoodConsumption(currHead)==true)
         {
-            playerPosList->insertHead(currHead);
+            increasePlayerLength(currHead);
             foodRef->generateFood(*playerPosList);
             mainGameMechsRef->incrementScore();
         }
@@ -137,8 +135,8 @@ void Player::movePlayer()
         else
         {
             //new current head should be inserted to the head of the list
-            playerPosList->insertHead(currHead);
-            //then, remove tail
+            //then, remove tailPla
+            increasePlayerLength(currHead);
             playerPosList->removeTail();
         }
 
@@ -146,16 +144,17 @@ void Player::movePlayer()
     
 }
 
-bool Player::checkSelfCollision()
+bool Player::checkSelfCollision(objPos &currHead)
 {
     objPos returnPos;
-    objPos currHead;
-    playerPosList->getHeadElement(currHead);
 
-    for(int i=3; i<playerPosList->getSize(); i++)
+    for(int i=1; i<playerPosList->getSize(); i++)
     {
         playerPosList->getElement(returnPos,i);
-        if(returnPos.x==currHead.x && returnPos.y == currHead.y)
+
+        //returnPos.x==currHead.x && returnPos.y == currHead.y
+        //returnPos.isPosEqual(currHead)
+        if(currHead.isPosEqual(&returnPos))
         {
             MacUILib_printf("self colided");
             return true;
@@ -164,11 +163,13 @@ bool Player::checkSelfCollision()
     return false;
 }
 
-bool Player::checkFoodConsumption()
+bool Player::checkFoodConsumption(objPos &currHead)
 {
     objPos tempFoodPos;
     foodRef->getFoodPos(tempFoodPos);
-    if(currHead.x == tempFoodPos.x && currHead.y == tempFoodPos.y)
+
+    //currHead.x == tempFoodPos.x && currHead.y == tempFoodPos.y
+    if(currHead.isPosEqual(&tempFoodPos))
     {
         return true;
     }
@@ -179,8 +180,9 @@ bool Player::checkFoodConsumption()
     }
 }
 
-void Player::increasePlayerLength()
+void Player::increasePlayerLength(objPos &currHead)
 {
+    playerPosList->insertHead(currHead);
     
 }
 

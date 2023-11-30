@@ -29,14 +29,14 @@ class Player
         //- if yes, increment the score in GM, generate new food and 
         // do not remove tail
         //otherwise, remove tail and move on.
-        bool checkFoodConsumption();
-        void increasePlayerLength();
+        bool checkFoodConsumption(objPos &currHead);
+        void increasePlayerLength(objPos &currHead);
 
         //Lastly, add self-collsion check
         //- if self-collided
         //set loseFlag and exitFlag both to true (thru GM)
         // this will break the program loop and end the game
-        bool checkSelfCollision();
+        bool checkSelfCollision(objPos &currHead);
 
         //if ending, you need to differentiate the end game state
         // LOST - display LOST msg
