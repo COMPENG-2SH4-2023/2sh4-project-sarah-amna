@@ -152,6 +152,11 @@ void DrawScreen(void)
         playerBody->getElement(tempBody, l);
         MacUILib_printf("<%d, %d> ",tempBody.x ,tempBody.y);
     }
+
+    if(myGM->getLoseFlagStatus() == true)
+    {
+        MacUILib_printf("\nYou lose!");
+    }
 }
 
 void LoopDelay(void)
@@ -162,7 +167,7 @@ void LoopDelay(void)
 
 void CleanUp(void)
 {
-    MacUILib_clearScreen();    
+    //MacUILib_clearScreen();    
     MacUILib_uninit();
 
     //remove heap instances

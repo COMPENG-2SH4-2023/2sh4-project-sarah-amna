@@ -123,7 +123,7 @@ void Player::movePlayer()
     
     //Collision Detection
     
-    if(checkSelfCollision(currHead)==false)
+    if(checkSelfCollision(currHead)==false && playerPosList->getSize()==1)
     {
         if(checkFoodConsumption(currHead)==true)
         {
@@ -141,6 +141,12 @@ void Player::movePlayer()
         }
 
     }
+    else
+    {
+        mainGameMechsRef->setLoseFlag();
+        mainGameMechsRef->setExitTrue();
+
+    }
     
 }
 
@@ -156,7 +162,6 @@ bool Player::checkSelfCollision(objPos &currHead)
         //returnPos.isPosEqual(currHead)
         if(currHead.isPosEqual(&returnPos))
         {
-            MacUILib_printf("self colided");
             return true;
         }
     }
