@@ -95,7 +95,9 @@ void DrawScreen(void)
     objPos tempBody;
     
     objPos tempFoodPos;
-    myFood->getFoodPos(tempFoodPos);
+    
+    
+
     //Because we are using the async input in MacUILib_printf instead of cout
     //objPos tempPos;
     //myPlayer.getPlayerPos(tempPos);
@@ -124,22 +126,28 @@ void DrawScreen(void)
             // {
             //     MacUILib_printf("%c", tempPos.symbol);
             // }
-            else if (i ==tempFoodPos.y && j ==tempFoodPos.x)
+            for (int k = 0; k <5; k++)
             {
-                MacUILib_printf("%c", tempFoodPos.symbol);
+                myFood->getFoodPos(tempFoodPos, k);
+                if (i ==tempFoodPos.y && j ==tempFoodPos.x)
+                {
+                    MacUILib_printf("%c", tempFoodPos.symbol);
+                    drawn = true;
+                    break;
+                }
             }
+            if (drawn) continue;
+
+            if(i==0 || i==myGM->getBoardSizeY()-1 || j==0 || j==myGM->getBoardSizeX()-1)
+            {
+                MacUILib_printf("#"); 
+            }
+            
             else
             {
-                if(i==0 || i==myGM->getBoardSizeY()-1 || j==0 || j==myGM->getBoardSizeX()-1)
-                {
-                   MacUILib_printf("#"); 
-                }
-                
-                else
-                {
-                    MacUILib_printf(" ");
-                }
+                MacUILib_printf(" ");
             }
+            
         }
         MacUILib_printf("\n");
     }

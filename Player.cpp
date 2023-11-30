@@ -123,7 +123,7 @@ void Player::movePlayer()
     
     //Collision Detection
     
-    if(checkSelfCollision(currHead)==false && playerPosList->getSize()==1)
+    if(checkSelfCollision(currHead)==false)
     {
         if(checkFoodConsumption(currHead)==true)
         {
@@ -171,7 +171,8 @@ bool Player::checkSelfCollision(objPos &currHead)
 bool Player::checkFoodConsumption(objPos &currHead)
 {
     objPos tempFoodPos;
-    foodRef->getFoodPos(tempFoodPos);
+    
+    foodRef->getFoodPos(tempFoodPos, 0);
 
     //currHead.x == tempFoodPos.x && currHead.y == tempFoodPos.y
     if(currHead.isPosEqual(&tempFoodPos))

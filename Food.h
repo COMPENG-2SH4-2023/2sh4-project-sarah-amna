@@ -8,13 +8,14 @@
 class Food 
 {
     private:
-        objPos foodPos;
+        //objPos foodPos;
+        objPosArrayList *foodBucket;
         
     public:
         Food();// Constructor
         ~Food();// Destructor
         void generateFood(objPosArrayList &blockOff);
-        void getFoodPos(objPos &returnPos); 
+        void getFoodPos(objPos &returnPos, int i);  //
 
         // Need to accept the player body array list
         // go thru each array list element to make sure they are all
