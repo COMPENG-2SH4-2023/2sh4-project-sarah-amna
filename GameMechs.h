@@ -44,7 +44,7 @@ class GameMechs
         int getBoardSizeX();
         int getBoardSizeY();
         int getScore();
-        void incrementScore();  
+        void incrementScore(int num);  
 };
 
 #endif

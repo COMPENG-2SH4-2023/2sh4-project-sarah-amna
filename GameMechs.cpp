@@ -59,9 +59,9 @@ int GameMechs::getScore()
 {
     return score;
 }
-void GameMechs::incrementScore()
+void GameMechs::incrementScore(int num)
 {
-    score++;
+    score+=num;
 }
 
 void GameMechs::setExitTrue()

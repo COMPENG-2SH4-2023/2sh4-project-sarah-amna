@@ -129,7 +129,6 @@ void Player::movePlayer()
         {
             increasePlayerLength(currHead);
             foodRef->generateFood(*playerPosList);
-            mainGameMechsRef->incrementScore();
         }
 
         else
@@ -171,19 +170,40 @@ bool Player::checkSelfCollision(objPos &currHead)
 bool Player::checkFoodConsumption(objPos &currHead)
 {
     objPos tempFoodPos;
-    
-    foodRef->getFoodPos(tempFoodPos, 0);
+    int i, score;
+    for (i =0; i < 5; i++)
+    {
+        foodRef->getFoodPos(tempFoodPos, i);
+        if(currHead.isPosEqual(&tempFoodPos))
+        {
+            if(tempFoodPos.getSymbol()=='o')
+            {
+                score=1;
+                mainGameMechsRef->incrementScore(score);
+            }
+
+            else if(tempFoodPos.getSymbol()=='e')
+            {
+                score=10;
+                mainGameMechsRef->incrementScore(score);
+                movePlayer();
+                increasePlayerLength(currHead);
+                
+            }
+            else
+            {
+                score=5;
+                mainGameMechsRef->incrementScore(score);
+                movePlayer();
+                increasePlayerLength(currHead);
+                playerPosList->removeTail();
+            }
+            return true;
+        }
+    }
+    return false;
 
     //currHead.x == tempFoodPos.x && currHead.y == tempFoodPos.y
-    if(currHead.isPosEqual(&tempFoodPos))
-    {
-        return true;
-    }
-
-    else
-    {
-        return false;
-    }
 }
 
 void Player::increasePlayerLength(objPos &currHead)
