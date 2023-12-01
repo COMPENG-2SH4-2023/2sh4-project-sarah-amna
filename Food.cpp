@@ -13,6 +13,7 @@ Food::Food()
 Food::~Food()
 {
     //delete
+    delete foodBucket;
 }
 void Food::generateFood(objPosArrayList &blockOff) //NEEDS TO BE UPDATED NOW
 {

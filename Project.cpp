@@ -54,8 +54,6 @@ void Initialize(void)
     myFood = new Food(); //allocate it on the heap
     myPlayer= new Player(myGM, myFood);
     
-
-    myPlayer= new Player(myGM, myFood);
     
     //Think about when to generate food..
     myFood->generateFood(*playerPosList); 
@@ -67,7 +65,7 @@ void Initialize(void)
 
 void GetInput(void)
 {
-    if(myGM->getInput()=='!')
+    if(myGM->getInput()=='E')
     {
         myGM->setExitTrue();
     }

@@ -120,14 +120,18 @@ void Player::movePlayer()
         default:
             break;
     }
-    
+
     //Collision Detection
     
     if(checkSelfCollision(currHead)==false)
     {
         if(checkFoodConsumption(currHead)==true)
         {
-            increasePlayerLength(currHead);
+            if(playerPosList->getSize()==0)
+            {
+                mainGameMechsRef->setLoseFlag();
+                mainGameMechsRef->setExitTrue();
+            }
             foodRef->generateFood(*playerPosList);
         }
 
@@ -180,22 +184,21 @@ bool Player::checkFoodConsumption(objPos &currHead)
             {
                 score=1;
                 mainGameMechsRef->incrementScore(score);
+                increasePlayerLength(currHead);
             }
 
             else if(tempFoodPos.getSymbol()=='e')
             {
                 score=10;
                 mainGameMechsRef->incrementScore(score);
-                movePlayer();
                 increasePlayerLength(currHead);
-                
+                increasePlayerLength(currHead);
             }
             else
             {
                 score=5;
                 mainGameMechsRef->incrementScore(score);
-                movePlayer();
-                increasePlayerLength(currHead);
+                playerPosList->removeTail();
                 playerPosList->removeTail();
             }
             return true;
