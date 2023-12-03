@@ -13,10 +13,8 @@ using namespace std;
 GameMechs* myGM;
 Player* myPlayer;
 objPosArrayList* playerPosList = new objPosArrayList;
-Food* myFood; // Global Pointer to this class 
-
+Food* myFood; 
 objPos myPos;
-
 
 bool exitFlag;
 
@@ -28,7 +26,6 @@ void LoopDelay(void);
 void CleanUp(void);
 
 
-
 int main(void)
 {
 
@@ -36,13 +33,9 @@ int main(void)
 
     while(myGM->getExitFlagStatus() == false)
     {
-        //MacUILib_printf("1\n");
         GetInput();
-        //MacUILib_printf("2\n");
         RunLogic();
-        //MacUILib_printf("3\n");
         DrawScreen();
-        //MacUILib_printf("4");
         LoopDelay();
     }
     CleanUp();
@@ -54,30 +47,23 @@ void Initialize(void)
     MacUILib_init();
     MacUILib_clearScreen();
 
-    myGM= new GameMechs(20,10); // x-cols, y-rows
-    myFood = new Food(); //allocate it on the heap
+    myGM= new GameMechs(20,10); 
+    myFood = new Food(); 
     myPlayer= new Player(myGM, myFood);
-    
-    
-    //Think about when to generate food..
-    myFood->generateFood(*playerPosList); 
-    //Think about whether you want to set up a debug key to call the food generation routine for verification
 
-    //remember, generateFood() requires player reference, you will need to provide it AFTER player 
-    //obj is instantiated
+    myFood->generateFood(*playerPosList); //starting food items
 }
 
 void GetInput(void)
 {
-    if(myGM->getInput()=='!')
+    if(myGM->getInput()=='!') //exit key
     {
         myGM->setExitTrue();
     }
-    if (myGM->getInput() == 'f')
+    else if (myGM->getInput() == 'f') //debugging key for generating random food items
     {
         myFood->generateFood(*playerPosList);
     }
-   
 }
 
 void RunLogic(void)
@@ -95,22 +81,15 @@ void DrawScreen(void)
 
     objPosArrayList* playerBody = myPlayer->getPlayerPos();
     objPos tempBody;
-    
     objPos tempFoodPos;
     
-    
-
-    //Because we are using the async input in MacUILib_printf instead of cout
-    //objPos tempPos;
-    //myPlayer.getPlayerPos(tempPos);
-    MacUILib_printf("%c\n",myGM->getInput());
     int i, j;
     for(i=0; i<myGM->getBoardSizeY(); i++)
     {
         for(j=0; j<myGM->getBoardSizeX(); j++)
         {
             drawn = false;
-            //iterate through every element in the list
+            //prints the snake
             for (int k =0; k < playerBody->getSize(); k++)
             {
                 playerBody->getElement(tempBody, k);
@@ -121,14 +100,10 @@ void DrawScreen(void)
                     break; //breaks out the k for loop
                 }
             }
-            if (drawn) continue;
-            //if player was drawn, don't draw anything below
-
-            // if(i==tempPos.y&& j==tempPos.x) //check if equal to player position
-            // {
-            //     MacUILib_printf("%c", tempPos.symbol);
-            // }
-            for (int k = 0; k <5; k++)
+            if (drawn) continue; // if snake is drawn, go to next iteration in the j for loop
+ 
+            //draws food
+            for (int k = 0; k <NUMFOOD; k++)
             {
                 myFood->getFoodPos(tempFoodPos, k);
                 if (i ==tempFoodPos.y && j ==tempFoodPos.x)
@@ -138,9 +113,10 @@ void DrawScreen(void)
                     break;
                 }
             }
-            if (drawn) continue;
-
-            if(i==0 || i==myGM->getBoardSizeY()-1 || j==0 || j==myGM->getBoardSizeX()-1)
+            if (drawn) continue; // if food is drawn, go to next iteration in the j for loop
+            
+            //draws game boundaries
+            else if(i==0 || i==myGM->getBoardSizeY()-1 || j==0 || j==myGM->getBoardSizeX()-1)
             {
                 MacUILib_printf("#"); 
             }
@@ -153,19 +129,21 @@ void DrawScreen(void)
         }
         MacUILib_printf("\n");
     }
-    //MacUILib_printf("Player: <%d, %d> with %c\n", tempPos.x, tempPos.y, tempPos.symbol);
-    MacUILib_printf("Food: <%d, %d> with %c\n", tempFoodPos.x, tempFoodPos.y, tempFoodPos.symbol);
+    //Display Messages
+    MacUILib_printf("Sarah and Amna's Snake Game\n");
+    MacUILib_printf("Collect 'o' to score 1 point.\nCollect 'e' to score 10 points and grow the snake by 2.\nCollect 's' to score 5 points and shrink the snake length by 2.\n");
+    MacUILib_printf("Enter '!' to exit.\n");
+    MacUILib_printf("\n");
+    MacUILib_printf("~ Score 200 points to win ~\n");
     MacUILib_printf("Score: %d\n", myGM->getScore());
-    MacUILib_printf("Player Positions:\n");
-    for (int l =0; l<playerBody->getSize() ;l++)
-    {
-        playerBody->getElement(tempBody, l);
-        MacUILib_printf("<%d, %d> ",tempBody.x ,tempBody.y);
-    }
 
     if(myGM->getLoseFlagStatus() == true)
     {
         MacUILib_printf("\nYou lose!");
+    }
+    else if(myGM->getWinFlagStatus() == true)
+    {
+       MacUILib_printf("\nYou win!"); 
     }
 }
 

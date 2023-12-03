@@ -2,13 +2,12 @@
 #include <iostream>
 #include "MacUILib.h"
 using namespace std;
+
 Player::Player(GameMechs* thisGMRef, Food* myFood)
 {
     mainGameMechsRef = thisGMRef;
     foodRef= myFood;
     myDir = STOP;
-    //myDir = UP;
-
 
     // more actions to be included
     objPos tempPos;
@@ -18,12 +17,6 @@ Player::Player(GameMechs* thisGMRef, Food* myFood)
 
     playerPosList = new objPosArrayList();
     playerPosList->insertHead(tempPos);
-
-    //For Debugging Purpose 
-    // playerPosList->insertHead(tempPos);
-    // playerPosList->insertHead(tempPos);
-    // playerPosList->insertHead(tempPos);
-    // playerPosList->insertHead(tempPos);
 }
 
 
@@ -36,15 +29,12 @@ Player::~Player()
 objPosArrayList* Player::getPlayerPos()//objPos &returnPos
 {
     return playerPosList;
-    // return the reference to the playerPos arrray list
-
 }
 
 void Player::updatePlayerDir()
 {
     // PPA3 input processing logic  
     char input= mainGameMechsRef->getInput();
-    //char input= 0;
     switch(input)
     {
         case 'a':
@@ -81,8 +71,6 @@ void Player::updatePlayerDir()
             }
             break;
     }
-    MacUILib_printf("mydirupdates\n");
-
 }
 
 void Player::movePlayer()
@@ -123,54 +111,43 @@ void Player::movePlayer()
             break;
     }
 
-    MacUILib_printf("currmovementworks");
     //Collision Detection
-    
     if(checkSelfCollision(currHead)==false)
     {
         if(checkFoodConsumption(currHead)==true)
         {
-            if(playerPosList->getSize()==0)
+            if(playerPosList->getSize()==0) //if player shrinks
             {
-                //MacUILib_printf("you loose\n");
                 mainGameMechsRef->setLoseFlag();
                 mainGameMechsRef->setExitTrue();
             }
-            MacUILib_printf("food gen");
             foodRef->generateFood(*playerPosList);
         }
 
         else
         {
             //new current head should be inserted to the head of the list
-            //then, remove tailPla
-            //foodRef->generateFood(*playerPosList);
-            MacUILib_printf("this runs");
+            //then, remove tail
             increasePlayerLength(currHead);
             playerPosList->removeTail();
         }
 
     }
-    else
+    else //self collided is true
     {
         mainGameMechsRef->setLoseFlag();
         mainGameMechsRef->setExitTrue();
-
-    }
-    MacUILib_printf("moveplayerupdates");
-   
+    }   
 }
 
 bool Player::checkSelfCollision(objPos &currHead)
 {
     objPos returnPos;
 
-    for(int i=1; i<playerPosList->getSize(); i++)
+    for(int i=1; i<playerPosList->getSize(); i++) //checks the head of the snake against the rest of the body (i starts at 1)
     {
         playerPosList->getElement(returnPos,i);
 
-        //returnPos.x==currHead.x && returnPos.y == currHead.y
-        //returnPos.isPosEqual(currHead)
         if(currHead.isPosEqual(&returnPos))
         {
             return true;
@@ -183,48 +160,41 @@ bool Player::checkFoodConsumption(objPos &currHead)
 {
     objPos tempFoodPos;
     int i, score;
-    for (i =0; i < 5; i++)
+    for (i =0; i < NUMFOOD; i++) //iterates through all the 5 food items and checks for collision with the snake head
     {
         foodRef->getFoodPos(tempFoodPos, i);
+
         if(currHead.isPosEqual(&tempFoodPos))
         {
-            MacUILib_printf("food this runs");
-            if(tempFoodPos.getSymbol()=='o')
+            if(tempFoodPos.getSymbol()=='o') //normal food
             {
-                MacUILib_printf("o this runs");
                 score=1;
                 mainGameMechsRef->incrementScore(score);
                 increasePlayerLength(currHead);
             }
 
-            else if(tempFoodPos.getSymbol()=='e')
+            else if(tempFoodPos.getSymbol()=='e') //energy boost
             {
-                MacUILib_printf("e this runs");
                 score=10;
                 mainGameMechsRef->incrementScore(score);
+                increasePlayerLength(currHead); 
                 increasePlayerLength(currHead);
-                //increasePlayerLength(currHead);
             }
-            else
+            else //shrink snake
             {
-                MacUILib_printf("s this runs");
                 score=5;
                 mainGameMechsRef->incrementScore(score);
                 playerPosList->removeTail();
-                //playerPosList->removeTail();
+                playerPosList->removeTail();
             }
             return true;
         }
     }
     return false;
-
-    //currHead.x == tempFoodPos.x && currHead.y == tempFoodPos.y
 }
 
 void Player::increasePlayerLength(objPos &currHead)
 {
-    playerPosList->insertHead(currHead);
-    MacUILib_printf("head inserted");
-    
+    playerPosList->insertHead(currHead);    
 }
 

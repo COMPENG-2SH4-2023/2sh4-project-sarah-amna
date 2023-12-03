@@ -4,6 +4,8 @@
 #include "GameMechs.h"
 #include "objPos.h"
 #include "objPosArrayList.h"
+#define NUMFOOD 5
+
 
 class Food 
 {

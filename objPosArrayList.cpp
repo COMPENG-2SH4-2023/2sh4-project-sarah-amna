@@ -14,8 +14,6 @@ objPosArrayList::objPosArrayList()
     aList = new objPos[ARRAY_MAX_CAP]; //256 elements on the heap
     listSize = 0; //no valid element in the list upon startup
     arrayCapacity= ARRAY_MAX_CAP; //array capacity should be max
-
-
 }
 
 objPosArrayList::~objPosArrayList()
@@ -37,7 +35,6 @@ void objPosArrayList::insertHead(objPos thisPos)
         return;
     }
 
-    
     for(int i = listSize ; i>0; i--)
     {
         aList[i].setObjPos(aList[i-1]); //this will shuffle all the elements towards the right
@@ -63,9 +60,7 @@ void objPosArrayList::removeHead()
     {
         for(int i = 0 ; i <listSize; i++)
         {
-            objPos* temp= aList;
-            aList[i].setObjPos(aList[i+1]); //this will shuffle all the elements towards the right
-            aList[i+1].setObjPos(temp[i]);
+            aList[i].setObjPos(aList[i+1]); //this will shuffle all the elements towards the left
         }
         listSize--;
     }
