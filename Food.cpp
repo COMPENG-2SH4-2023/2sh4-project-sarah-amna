@@ -1,5 +1,7 @@
 #include "Food.h"
-
+#include <iostream>
+#include "MacUILib.h"
+using namespace std;
 Food::Food()
 {
     objPos tempPos;
@@ -27,7 +29,6 @@ void Food::generateFood(objPosArrayList &blockOff) //NEEDS TO BE UPDATED NOW
 
     objPos returnPos; //stores the x and y of the player
     objPos foodPos;
-    foodPos.symbol = 'o';
 
     int foodX[5] = {0};
     int foodY[5] = {0};
@@ -44,33 +45,52 @@ void Food::generateFood(objPosArrayList &blockOff) //NEEDS TO BE UPDATED NOW
     {
         blockOff.getElement(returnPos,i);
         xVec[(returnPos.x)-1] = 1;//
-        yVec[(returnPos.y)-1] =1;
+        yVec[(returnPos.y)-1] = 1;
     }
 
-    //generate 5 x
-    while (xCount < 5)
+    // //generate 5 x
+    // while (xCount < 5)
+    // {
+    //     foodPos.x = (rand() % 18)+1;
+    //     if (xVec[foodPos.x-1] == 0  )
+    //     {
+    //         xVec[foodPos.x-1] = 1;
+    //         foodX[xCount] = foodPos.x;
+    //         xCount++;
+    //     }
+    // }
+    // MacUILib_printf("xcount executes");
+    // //generate 5 y
+    // while (yCount < 5)
+    // {
+    //     foodPos.y = (rand() % 8)+1;
+    //     if (yVec[foodPos.y-1] == 0 )
+    //     {
+    //         yVec[foodPos.y-1] = 1;
+    //         foodY[yCount] = foodPos.y;
+    //         yCount++;
+    //     }
+
+    // }
+    int count=0;
+    while(count<5)
     {
         foodPos.x = (rand() % 18)+1;
-        if (xVec[foodPos.x] == 0 )
-        {
-            xVec[foodPos.x] = 1;
-            foodX[xCount] = foodPos.x;
-            xCount++;
-        }
-    }
-
-    //generate 5 y
-    while (yCount < 5)
-    {
         foodPos.y = (rand() % 8)+1;
-        if (yVec[foodPos.y] == 0 )
+        while(xVec[foodPos.x-1]==1 && yVec[foodPos.y-1]==1)
         {
-            yVec[foodPos.y] = 1;
-            foodY[yCount] = foodPos.y;
-            yCount++;
+            foodPos.x = (rand() % 18)+1;
+            foodPos.y = (rand() % 8)+1;
         }
+        xVec[foodPos.x-1] = 1;
+        foodX[count] = foodPos.x;
 
+        yVec[foodPos.y-1] = 1;
+        foodY[count] = foodPos.y;
+
+        count++;
     }
+
     
     for (int i = 0 ; i < 5; i ++)
     {

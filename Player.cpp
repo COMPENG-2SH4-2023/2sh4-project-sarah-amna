@@ -7,6 +7,7 @@ Player::Player(GameMechs* thisGMRef, Food* myFood)
     mainGameMechsRef = thisGMRef;
     foodRef= myFood;
     myDir = STOP;
+    //myDir = UP;
 
 
     // more actions to be included
@@ -43,7 +44,7 @@ void Player::updatePlayerDir()
 {
     // PPA3 input processing logic  
     char input= mainGameMechsRef->getInput();
-    //char input= 'a';
+    //char input= 0;
     switch(input)
     {
         case 'a':
@@ -80,6 +81,7 @@ void Player::updatePlayerDir()
             }
             break;
     }
+    MacUILib_printf("mydirupdates\n");
 
 }
 
@@ -121,6 +123,7 @@ void Player::movePlayer()
             break;
     }
 
+    MacUILib_printf("currmovementworks");
     //Collision Detection
     
     if(checkSelfCollision(currHead)==false)
@@ -129,9 +132,11 @@ void Player::movePlayer()
         {
             if(playerPosList->getSize()==0)
             {
+                //MacUILib_printf("you loose\n");
                 mainGameMechsRef->setLoseFlag();
                 mainGameMechsRef->setExitTrue();
             }
+            MacUILib_printf("food gen");
             foodRef->generateFood(*playerPosList);
         }
 
@@ -139,6 +144,8 @@ void Player::movePlayer()
         {
             //new current head should be inserted to the head of the list
             //then, remove tailPla
+            //foodRef->generateFood(*playerPosList);
+            MacUILib_printf("this runs");
             increasePlayerLength(currHead);
             playerPosList->removeTail();
         }
@@ -150,7 +157,8 @@ void Player::movePlayer()
         mainGameMechsRef->setExitTrue();
 
     }
-    
+    MacUILib_printf("moveplayerupdates");
+   
 }
 
 bool Player::checkSelfCollision(objPos &currHead)
@@ -180,8 +188,10 @@ bool Player::checkFoodConsumption(objPos &currHead)
         foodRef->getFoodPos(tempFoodPos, i);
         if(currHead.isPosEqual(&tempFoodPos))
         {
+            MacUILib_printf("food this runs");
             if(tempFoodPos.getSymbol()=='o')
             {
+                MacUILib_printf("o this runs");
                 score=1;
                 mainGameMechsRef->incrementScore(score);
                 increasePlayerLength(currHead);
@@ -189,17 +199,19 @@ bool Player::checkFoodConsumption(objPos &currHead)
 
             else if(tempFoodPos.getSymbol()=='e')
             {
+                MacUILib_printf("e this runs");
                 score=10;
                 mainGameMechsRef->incrementScore(score);
                 increasePlayerLength(currHead);
-                increasePlayerLength(currHead);
+                //increasePlayerLength(currHead);
             }
             else
             {
+                MacUILib_printf("s this runs");
                 score=5;
                 mainGameMechsRef->incrementScore(score);
                 playerPosList->removeTail();
-                playerPosList->removeTail();
+                //playerPosList->removeTail();
             }
             return true;
         }
@@ -212,6 +224,7 @@ bool Player::checkFoodConsumption(objPos &currHead)
 void Player::increasePlayerLength(objPos &currHead)
 {
     playerPosList->insertHead(currHead);
+    MacUILib_printf("head inserted");
     
 }
 

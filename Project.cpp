@@ -36,9 +36,13 @@ int main(void)
 
     while(myGM->getExitFlagStatus() == false)
     {
+        //MacUILib_printf("1\n");
         GetInput();
+        //MacUILib_printf("2\n");
         RunLogic();
+        //MacUILib_printf("3\n");
         DrawScreen();
+        //MacUILib_printf("4");
         LoopDelay();
     }
     CleanUp();
@@ -65,7 +69,7 @@ void Initialize(void)
 
 void GetInput(void)
 {
-    if(myGM->getInput()=='E')
+    if(myGM->getInput()=='!')
     {
         myGM->setExitTrue();
     }
