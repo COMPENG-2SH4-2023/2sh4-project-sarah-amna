@@ -24,75 +24,56 @@ void Food::generateFood(objPosArrayList &blockOff) //NEEDS TO BE UPDATED NOW
     //check x and y against 0 and boardSixeX/Y
     
     //remember in objPos class you have an isPosEqual() method instead of comparing elem-by-elem for your convenience
-    int xCount=0;
-    int yCount=0;
+    int count = 0;
 
     objPos returnPos; //stores the x and y of the player
     objPos foodPos;
+    foodPos.symbol = 'o';
 
     int foodX[5] = {0};
     int foodY[5] = {0};
 
     //5 unique coordinates for food
-    int xVec[18] = {0}; //we avoid the borders
-    int yVec[8] = {0}; 
-
-    int i = 0;
+    //created a 18 x 8 twoD array to hold pairs of coordinates
+    int coords[18*8][2] = {0, 0}; 
+    int i;
+    
     int size = blockOff.getSize();
+    int index = size;
     srand(time(NULL));
 
     for (i = 0; i < size; i++) // repeats for whole player
     {
         blockOff.getElement(returnPos,i);
-        xVec[(returnPos.x)-1] = 1;//
-        yVec[(returnPos.y)-1] = 1;
+        coords[i][0] = returnPos.x;
+        coords[i][1] = returnPos.y;
     }
-
-    // //generate 5 x
-    // while (xCount < 5)
-    // {
-    //     foodPos.x = (rand() % 18)+1;
-    //     if (xVec[foodPos.x-1] == 0  )
-    //     {
-    //         xVec[foodPos.x-1] = 1;
-    //         foodX[xCount] = foodPos.x;
-    //         xCount++;
-    //     }
-    // }
-    // MacUILib_printf("xcount executes");
-    // //generate 5 y
-    // while (yCount < 5)
-    // {
-    //     foodPos.y = (rand() % 8)+1;
-    //     if (yVec[foodPos.y-1] == 0 )
-    //     {
-    //         yVec[foodPos.y-1] = 1;
-    //         foodY[yCount] = foodPos.y;
-    //         yCount++;
-    //     }
-
-    // }
-    int count=0;
-    while(count<5)
+    //first size number of elements in the array contain the snake body positions
+    //generate 5 x
+    while (count < 5)
     {
         foodPos.x = (rand() % 18)+1;
         foodPos.y = (rand() % 8)+1;
-        while(xVec[foodPos.x-1]==1 && yVec[foodPos.y-1]==1)
+        for(i = 0; i < index + 5; i++)//checks generated values against the values in coords
         {
-            foodPos.x = (rand() % 18)+1;
-            foodPos.y = (rand() % 8)+1;
+        	if ((foodPos.x == coords[i][0]) && (foodPos.y == coords[i][1])) //Checks if the generated value is already taken 
+        	{
+                break;
+            }
         }
-        xVec[foodPos.x-1] = 1;
-        foodX[count] = foodPos.x;
-
-        yVec[foodPos.y-1] = 1;
-        foodY[count] = foodPos.y;
-
-        count++;
+        if (i == index + 5) //didn't overlap with any of the coords
+        {
+            coords[index][0] = foodPos.x;
+            coords[index][1]= foodPos.y;
+            foodX[count] = foodPos.x; //save the position in our FoodX array
+            foodY[count] = foodPos.y;
+            index++;
+            count++;
+        }
+        
     }
-
     
-    for (int i = 0 ; i < 5; i ++)
+    for (int i = 0; i < 5; i ++)
     {
         foodPos.x = foodX[i];
         foodPos.y = foodY[i];
@@ -104,9 +85,7 @@ void Food::generateFood(objPosArrayList &blockOff) //NEEDS TO BE UPDATED NOW
             foodPos.symbol = 'o';
         foodBucket->insertHead(foodPos);
     }
-
-
-    
+  
 }
 
 void Food::getFoodPos(objPos &returnPos, int i)
