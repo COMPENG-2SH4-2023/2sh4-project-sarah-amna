@@ -121,9 +121,13 @@ void Player::movePlayer()
                 mainGameMechsRef->setLoseFlag();
                 mainGameMechsRef->setExitTrue();
             }
+            if (mainGameMechsRef->getScore()>= 100)
+            {
+                mainGameMechsRef->setWinFlag();
+                mainGameMechsRef->setExitTrue();
+            }
             foodRef->generateFood(*playerPosList);
         }
-
         else
         {
             //new current head should be inserted to the head of the list
@@ -172,7 +176,6 @@ bool Player::checkFoodConsumption(objPos &currHead)
                 mainGameMechsRef->incrementScore(score);
                 increasePlayerLength(currHead);
             }
-
             else if(tempFoodPos.getSymbol()=='e') //energy boost
             {
                 score=10;
