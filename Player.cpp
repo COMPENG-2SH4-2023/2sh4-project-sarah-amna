@@ -121,7 +121,7 @@ void Player::movePlayer()
                 mainGameMechsRef->setLoseFlag();
                 mainGameMechsRef->setExitTrue();
             }
-            if (mainGameMechsRef->getScore()>= 100)
+            else if (mainGameMechsRef->getScore()>= 100)
             {
                 mainGameMechsRef->setWinFlag();
                 mainGameMechsRef->setExitTrue();

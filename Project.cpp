@@ -131,11 +131,12 @@ void DrawScreen(void)
         MacUILib_printf("\n");
     }
     //Display Messages
-    MacUILib_printf("Sarah and Amna's Snake Game\n");
-    MacUILib_printf("Collect 'o' to score 1 point.\nCollect 'e' to score 10 points and grow the snake by 2.\nCollect 's' to score 5 points and shrink the snake length by 2.\n");
+    MacUILib_printf("Sarah and Amna's Snake Game:\n");
+    MacUILib_printf("Play using the WASD Keys!\n");
+    MacUILib_printf("Collect 'o' to score 1 point.\nCollect 'e' to score 10 points and grow the snake by 2.\nCollect 's' to score 5 points and shrink the snake by 2.\n");
     MacUILib_printf("Enter '!' to exit.\n");
     MacUILib_printf("\n");
-    MacUILib_printf("~ Score 50 points to win ~\n");
+    MacUILib_printf("~ Score 100 points to win ~\n");
     MacUILib_printf("Score: %d\n", myGM->getScore());
 
     if(myGM->getLoseFlagStatus() == true)
